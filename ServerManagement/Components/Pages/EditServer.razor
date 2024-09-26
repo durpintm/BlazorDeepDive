@@ -6,7 +6,8 @@
 
 @if (server != null)
 {
-    <EditForm Model="server">
+    <EditForm Model="server" FormName="FormServer" OnSubmit="Submit">
+        <InputNumber hidden @bind-Value="server.ServerId" />
         <div class="row mb-3">
             <div class="col-2">
                 <label class="col-form-label">Name</label>
@@ -18,7 +19,7 @@
         </div>
         <div class="row mb-3">
             <div class="col-2">
-                <label class="col-form-label">Name</label>
+                <label class="col-form-label">City</label>
             </div>
             <div class="col-6">
                 <InputText @bind-Value="server.City" class="form-control"></InputText>
@@ -32,20 +33,25 @@
                 <InputCheckbox @bind-Value="server.IsOnline" class="form-check-input"></InputCheckbox>
             </div>
         </div>
+        <br />
+        <button class="btn btn-primary" type="submit">Update</button>
+        &nbsp;
+        <a href="/servers" class="btn btn-primary">Close</a>
     </EditForm>
 }
-<br />
-<a href="/servers" class="btn btn-primary">Close</a>
 
 @code {
     [Parameter]
     public int serverId { get; set; }
 
-    private Server? server;
+    // [SupplyParameterFromForm(Name = "FormServer")] // For multiple forms we can use Name
+    [SupplyParameterFromForm]
+    private Server? server { get; set; }
 
     protected override void OnParametersSet()
     {
-        server = ServersRepository.GetServerById(this.serverId);
+        // Invoke GetServerById only if server is null
+        server ??= ServersRepository.GetServerById(this.serverId);
     }
 
     // async version
@@ -53,4 +59,12 @@
     // {
     //     return base.OnParametersSetAsync();
     // }
+
+    private void Submit()
+    {
+        if (server != null)
+        {
+            ServersRepository.UpdateServer(server.ServerId, server);
+        }
+    }
 }
