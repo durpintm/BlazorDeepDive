@@ -1,7 +1,11 @@
-﻿@page "/servers/edit"
+﻿@page "/servers/edit/{serverId:int}"
 
 <h3>EditServer</h3>
+<br />
+<br />
+@serverId
 
 @code {
-
+    [Parameter]
+    public int serverId { get; set; }
 }
