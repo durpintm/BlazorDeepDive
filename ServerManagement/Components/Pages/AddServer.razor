@@ -1,4 +1,4 @@
-﻿@page "/servers/edit/{serverId:int}"
+﻿@page "/servers/add"
 
 @inject NavigationManager NavigationManager
 
@@ -12,7 +12,6 @@
         <DataAnnotationsValidator></DataAnnotationsValidator>
         <ValidationSummary></ValidationSummary>
 
-        <InputNumber hidden @bind-Value="server.ServerId" />
         <div class="row mb-3">
             <div class="col-2">
                 <label class="col-form-label">Name</label>
@@ -44,47 +43,22 @@
             </div>
         </div>
         <br />
-        <button class="btn btn-primary" type="submit">Update</button>
+        <button class="btn btn-primary" type="submit">Add Server</button>
         &nbsp;
         <a href="/servers" class="btn btn-primary">Close</a>
     </EditForm>
 }
 
 @code {
-    [Parameter]
-    public int serverId { get; set; }
-
-    // [SupplyParameterFromForm(Name = "FormServer")] // For multiple forms we can use Name
     [SupplyParameterFromForm]
-    private Server? server { get; set; }
-
-    protected override void OnParametersSet()
-    {
-        // Invoke GetServerById only if server is null
-        server ??= ServersRepository.GetServerById(this.serverId);
-    }
-
-    // async version
-    // protected override Task OnParametersSetAsync()
-    // {
-    //     return base.OnParametersSetAsync();
-    // }
+    private Server server { get; set; } = new Server { IsOnline = false };
 
     private void SubmitForm()
     {
         if (server != null)
         {
-            ServersRepository.UpdateServer(server.ServerId, server);
-        }
-
-        try
-        {
-            NavigationManager.NavigateTo("/servers", true);
-            
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine(ex.Message);
+            ServersRepository.AddServer(server);
+            NavigationManager.NavigateTo("/servers");
         }
     }
 }

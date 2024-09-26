@@ -1,4 +1,4 @@
-﻿@page "/servers";
+﻿@page "/servers"
 
 <h3>Servers</h3>
 <br />
@@ -37,6 +37,9 @@
         </li>
     }
 </ul>
+<p>
+    <a href="/servers/add" class="btn btn-primary">Add Server</a>
+</p>
 
 @code {
     private List<Server> servers = ServersRepository.GetServersByCity("Toronto");
