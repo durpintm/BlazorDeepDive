@@ -1,7 +1,5 @@
 ﻿@page "/servers";
 
-@* @using ServerManagement.Components.Controls;*@
-
 <h3>Servers</h3>
 <br />
 <br />
@@ -34,6 +32,8 @@
             <span style="color:@((server.IsOnline ? "green":"red"))">
                 @(server.IsOnline ? "Online" : "Offline")
             </span>
+            &nbsp;
+            <a href="/servers/edit" class="btn btn-link">Edit</a>
         </li>
     }
 </ul>
