@@ -29,7 +29,7 @@
 
         public static List<Server> GetServers() => servers;
 
-        public static List<Server> GetServerByCity(string cityName)
+        public static List<Server> GetServersByCity(string cityName)
         {
             var serverList = servers.Where(s => s.City.Equals(cityName, StringComparison.OrdinalIgnoreCase)).ToList();
             return serverList;
